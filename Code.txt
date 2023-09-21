@@ -1,0 +1,82 @@
+#include <iostream>
+
+using namespace std;
+
+int random(int min, int max) {
+	return(rand() % (max - min) + min);
+}
+
+class BankAccount {
+private:
+	string name;
+	int id;
+	float balance;
+public:
+
+	BankAccount() {
+		name = "N/A";
+		id = random(1000000, 9999999);
+		balance = 0.00;
+	}
+
+	void deposit(float userInputMoneySum) {
+		balance += userInputMoneySum;
+		cout << "\nYou add " << userInputMoneySum << " to " << balance << endl;
+		cout << "Your balance now: " << balance;
+	}
+
+	void withdraw(float userInputMoneyWithdraw) {
+		balance -= userInputMoneyWithdraw;
+		cout << "\nYou withdrawed " << userInputMoneyWithdraw << " from " << balance << endl;
+		cout << "Your balance now: " << balance;
+	}
+
+	void getBalance() {
+		cout << "\nYour balance: " << balance;
+	}
+
+	void displayInfo() {
+		cout << "\nName: " << name << endl;
+		cout << "ID: " << id << endl;
+		cout << "Balance: " << balance << endl;
+	}
+};
+
+int main() {
+	srand(time(NULL));
+
+	BankAccount account;
+	float balance;
+	int action;
+
+	cout << "You can do:\n";
+	cout << "   Deposit(1).\n";
+	cout << "   Withdraw(2).\n";
+	cout << "   Know your balance(3).\n";
+	cout << "   Know your all information(4).\n";
+	cout << "Enter action: ";
+	cin >> action;
+
+	switch (action) {
+	case 1:
+		cout << "Enter a sum";
+		cin >> balance;
+		account.deposit(balance);
+
+	case 2:
+		cout << "Enter a sum";
+		cin >> balance;
+		account.withdraw(balance);
+
+	case 3:
+		account.getBalance();
+
+	case 4:
+		account.displayInfo();
+
+		if (action < 1 || action > 4) {
+			cout << "\nYou entered a wrong action, try again later.";
+			break;
+		}
+	}
+}
