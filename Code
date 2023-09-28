@@ -1,0 +1,56 @@
+#include <iostream>
+
+using namespace std;
+
+class Bird {
+public:
+	string name;
+	string color;
+	float weight;
+	float height;
+};
+
+class HomeParrot : public Bird {
+public:
+	bool isSpeak;
+	bool trained;
+	void Say(string word) {
+		cout << word;
+	}
+};
+
+class Penguin : public Bird {
+	bool canSwim;
+	bool canFly;
+	bool canCatchTheFishUnderWater;
+	void Swim() {
+		cout << "* Penguin is swimming *";
+	}
+};
+
+class Crow : public Bird {
+	bool isSpeak;
+	bool trained;
+	void voice_Car() {
+		cout << "Caaaaarr";
+	}
+};
+
+class Swan : public Bird {
+	bool canSwim;
+	bool canCatchTheFishUnderWater;
+	void Swim() {
+		cout << " Swam is swimming";
+	}
+};
+
+class Duck : public Bird {
+	bool canSwim;
+	bool canCatchTheFishUnderWater;
+	bool trained;
+	void Swim() {
+		cout << " Duck is swimming";
+	}
+};
+
+
