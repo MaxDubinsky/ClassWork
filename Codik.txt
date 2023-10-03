@@ -1,0 +1,153 @@
+#include <iostream>
+
+using namespace std;
+
+class Figure {
+public:
+	string name;
+	int square;
+	int lineThinkness;
+	string lineColor;
+	string fullColor;
+};
+
+class Rectangle : public Figure {
+public:
+	int width;
+	int height;
+
+	void showSofFigure() {
+		cout << "Enter width: ";
+		cin >> this->width;
+		cout << "Enter height: ";
+		cin >> this->height;
+
+		cout << "\nS: " << height * width << endl;
+		cout << "Name: " << this->name << endl;
+		cout << "Line Thinkness: " << this->lineThinkness << endl;
+		cout << "Line Color: " << this->lineColor << endl;
+		cout << "Line Full Color: " << this->fullColor << endl;
+	}
+
+	Rectangle() {
+		this->name = "Rectangle";
+		this->lineColor = "Black";
+		this->fullColor = "White";
+		this->lineThinkness = 1;
+	}
+};
+
+class Square : public Figure {
+public:
+	int oneSide;
+
+	void showSofFigure() {
+		cout << "Enter side: ";
+		cin >> this->oneSide;
+
+		cout << "\nS: " << oneSide * oneSide << endl;
+		cout << "Name: " << this->name << endl;
+		cout << "Line Thinkness: " << this->lineThinkness << endl;
+		cout << "Line Color: " << this->lineColor << endl;
+		cout << "Line Full Color: " << this->fullColor << endl;
+	}
+
+	Square() {
+		this->name = "Square";
+		this->lineColor = "Black";
+		this->fullColor = "White";
+		this->lineThinkness = 1;
+	}
+};
+
+class Circle : public Figure {
+public:
+	int radius;
+
+	void showSofFigure() {
+		cout << "Enter radius: ";
+		cin >> this->radius;
+
+		cout << "\nS: " << 3.14 * (radius * radius) << endl;
+		cout << "Name: " << this->name << endl;
+		cout << "Line Thinkness: " << this->lineThinkness << endl;
+		cout << "Line Color: " << this->lineColor << endl;
+		cout << "Line Full Color: " << this->fullColor << endl;
+	}
+
+	Circle() {
+		this->name = "Circle";
+		this->lineColor = "Black";
+		this->fullColor = "White";
+		this->lineThinkness = 1;
+	}
+};
+
+class Trapeze : public Figure {
+public:
+	int firstSide;
+	int secondSide;
+	int thirdSide;
+	int fourthSide;
+	int height;
+
+	void showSofFigure() {
+		cout << "Enter first side: ";
+		cin >> this->firstSide;
+		cout << "Enter second side: ";
+		cin >> this->secondSide;
+		cout << "Enter height: ";
+		cin >> this->height;
+
+		cout << "\nS: " << (firstSide + secondSide) * height / 2;
+		cout << "Name: " << this->name << endl;
+		cout << "Line Thinkness: " << this->lineThinkness << endl;
+		cout << "Line Color: " << this->lineColor << endl;
+		cout << "Line Full Color: " << this->fullColor << endl;
+	}
+
+	Trapeze() {
+		this->name = "Trapeze";
+		this->lineColor = "Black";
+		this->fullColor = "White";
+		this->lineThinkness = 1;
+	}
+};
+
+class Triangle : public Figure {
+public:
+	int firstSide;
+	int secondSide;
+	int mainSide;
+	int height;
+
+	void showSofFigure() {
+		cout << "Enter main side: ";
+		cin >> this->mainSide;
+		cout << "Enter height: ";
+		cin >> this->height;
+
+		cout << "\nS: " << (mainSide * height) / 2;
+		cout << "Name: " << this->name << endl;
+		cout << "Line Thinkness: " << this->lineThinkness << endl;
+		cout << "Line Color: " << this->lineColor << endl;
+		cout << "Line Full Color: " << this->fullColor << endl;
+	}
+
+	Triangle() {
+		this->name = "Triangle";
+		this->lineColor = "Black";
+		this->fullColor = "White";
+		this->lineThinkness = 1;
+	}
+};
+
+int main() {
+	Rectangle rectangle;
+	Square square;
+	Circle circle;
+	Trapeze trapeze;
+	Triangle triangle;
+
+	square.showSofFigure();
+}
