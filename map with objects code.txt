@@ -1,0 +1,87 @@
+#include <iostream>
+
+using namespace std;
+
+int random(int min, int max) {
+	return(rand() % (max - min) + min);
+}
+
+class Figure {
+public:
+	string type;
+	char symbol;
+	int size[1][1];
+	Figure(string type, char symbol) {
+		this->type = type;
+		this->symbol = symbol; }
+};
+
+class Field {
+public:
+	char** array = new char* [10];
+	Field() {
+		for (int i = 0; i < 10; i++) {
+			this->array[i] = new char[10];
+			for (int j = 0; j < 10; j++) {
+				this->array[i][j] = ' ';
+			}
+		}
+	}
+	void showField(char inp1, char inp2, char inp3, char inp4) {
+		for (int i = 0; i < 30; i++) {
+			cout << '-';
+		}
+
+		array[random(0, 10)][random(0, 10)] = inp1;
+		array[random(0, 10)][random(0, 10)] = inp2;
+		array[random(0, 10)][random(0, 10)] = inp3;
+		array[random(0, 10)][random(0, 10)] = inp4;
+
+		for (int i = 0; i < 10; i++) {
+			if (inp1 == inp2 || inp1 == inp3 || inp1 == inp4)
+				array[random(0, 10)][random(0, 10)] = inp1;
+			if (inp2 == inp1 || inp2 == inp3 || inp2 == inp4)
+				array[random(0, 10)][random(0, 10)] = inp2;
+			if (inp3 == inp1 || inp1 == inp2 || inp1 == inp4)
+				array[random(0, 10)][random(0, 10)] = inp3;
+			if (inp4 == inp1 || inp4 == inp2 || inp4 == inp3)
+				array[random(0, 10)][random(0, 10)] = inp4;
+		}
+
+		cout << endl;
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				cout << '|' << array[i][j] << '|';
+			}
+			cout << endl;
+		}
+		for (int i = 0; i < 30; i++) {
+			cout << '-';
+		}
+	}
+};
+
+int main() {
+	srand(time(NULL));
+	Figure figure1{"Tank", '#'};
+	Figure figure2{"Line", '!'};
+	Figure figure3{"Lightning", '*'};
+	Figure figure4{"Box", '2'};
+	
+	Field map;
+
+	if (figure1.symbol == figure2.symbol || figure1.symbol == figure3.symbol || figure1.symbol == figure4.symbol) {
+		figure1.symbol = '?';
+	}
+	if (figure2.symbol == figure1.symbol || figure2.symbol == figure3.symbol || figure2.symbol == figure4.symbol) {
+		figure2.symbol = '?';
+	}
+	if (figure3.symbol == figure1.symbol || figure3.symbol == figure2.symbol || figure3.symbol == figure4.symbol) {
+		figure3.symbol = '?';
+	}
+	if (figure4.symbol == figure1.symbol || figure4.symbol == figure2.symbol || figure4.symbol == figure3.symbol) {
+		figure4.symbol = '?';
+	}
+
+	map.showField(figure1.symbol, figure2.symbol, figure3.symbol, figure4.symbol);
+}
