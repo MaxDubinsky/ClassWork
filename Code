@@ -2,55 +2,262 @@
 
 using namespace std;
 
-class Bird {
+class Figure {
+protected:
+  char* line;
+  char** box;
 public:
-	string name;
-	string color;
-	float weight;
-	float height;
-};
+  string type;
+  char symbol;
 
-class HomeParrot : public Bird {
+  Figure(string type, char symbol) {
+    this->symbol = symbol;
+    if (type == "line") {
+      this->type = type;
+      this->line = new char[4];
+      for (int i = 0; i < 4; i++) {
+        this->line[i] = this->symbol;
+      }
+      delete[] box;
+    }
+    else if (type == "box") {
+      this->type = type;
+      this->box = new char* [2];
+      for (int i = 0; i < 2; i++) {
+        this->box[i] = new char[2];
+        for (int j = 0; j < 2; j++) {
+          this->box[i][j] = symbol;
+        }
+      }
+      delete[] line;
+    }
+    else if (type == "tank") {
+      this->type = type;
+      this->box = new char* [3];
+      for (int i = 0; i < 2; i++) {
+        this->box[i] = new char[2];
+        for (int j = 0; j < 2; j++) {
+          this->box[i][j] = symbol;
+        }
+      }
+      delete[] line;
+    }
+    else if (type == "upside down") {
+      this->type = type;
+      this->box = new char* [3];
+      for (int i = 0; i < 3; i++) {
+        this->box[i] = new char[2];
+        for (int j = 0; j < 2; j++) {
+          this->box[i][j] = symbol;
+        }
+      }
+      delete[] line;
+    }
+    else if (type == "lightning") {
+      this->type = type;
+      this->box = new char* [4];
+      for (int i = 0; i < 2; i++) {
+        this->box[i] = new char[2];
+        for (int j = 0; j < 2; j++) {
+          this->box[i][j] = symbol;
+        }
+      }
+      delete[] line;
+    }
+    else { this->type = "error"; }
+  }
+};
+class Field {
 public:
-	bool isSpeak;
-	bool trained;
-	void Say(string word) {
-		cout << word;
-	}
+  char** array = new char* [10];
+  Field() {
+    for (int i = 0; i < 10; i++) {
+      this->array[i] = new char[10];
+      for (int j = 0; j < 10; j++) {
+        this->array[i][j] = ' ';
+      }
+    }
+  }
+  void addFigure(Figure figure) {
+    int x = rand() % 10,
+      y = rand() % 10;
+    //cout << "\n" << "Random X = " << x << endl;
+    bool write = false;
+
+    if (this->array[x][y] == ' ') {
+      // << "stage 1 is OK" << endl;
+      if (figure.type == "line") {
+        //cout << "stage 2 is OK" << endl;
+        if (x < 7) {
+          //cout << "stage 3 is OK" << endl;
+          for (int i = x; i < x + 4; i++) {
+            if (this->array[y][i] == ' ') {
+              write = true;
+            }
+            else {
+              write = false;
+              break;
+            }
+          }
+          //cout << "stage 4 is OK" << endl;
+          if (write == true) {
+            //cout << "stage 5 is OK" << endl;
+            for (int i = x; i < x + 4; i++) {
+              this->array[y][i] = figure.symbol;
+            }
+            //cout << "stage 6 is OK" << endl;
+          }
+        }
+      }
+    }
+    if (this->array[x][y] == ' ') {
+      // << "stage 1 is OK" << endl;
+      if (figure.type == "box") {
+        //cout << "stage 2 is OK" << endl;
+        if (x < 9) {
+          //cout << "stage 3 is OK" << endl;
+          for (int i = x; i < x + 2; i++) {
+            if (this->array[y][i] == ' ') {
+              write = true;
+            }
+            else {
+              write = false;
+              break;
+            }
+          }
+          //cout << "stage 4 is OK" << endl;
+          if (write == true) {
+            //cout << "stage 5 is OK" << endl;
+            for (int i = x; i < x + 2; i++) {
+              this->array[++y][i] = figure.symbol;
+              this->array[--y][i] = figure.symbol;
+            }
+            //cout << "stage 6 is OK" << endl;
+          }
+        }
+      }
+    }
+    if (this->array[x][y] == ' ') {
+      // << "stage 1 is OK" << endl;
+      if (figure.type == "tank") {
+        //cout << "stage 2 is OK" << endl;
+        if (x < 6) {
+          //cout << "stage 3 is OK" << endl;
+          for (int i = x; i < x + 3; i++) {
+            if (this->array[y][i] == ' ') {
+              write = true;
+            }
+            else {
+              write = false;
+              break;
+            }
+          }
+          //cout << "stage 4 is OK" << endl;
+          if (write == true) {
+            //cout << "stage 5 is OK" << endl;
+            x = y++;
+            for (int i = x; i < x + 3; i++) {
+              for (int j = x; j < x + 1; j++) {
+                this->array[y][i] = figure.symbol;
+                this->array[x][++j] = figure.symbol;
+              }
+            }
+            //cout << "stage 6 is OK" << endl;
+          }
+        }
+      }
+    }
+    if (this->array[x][y] == ' ') {
+      // << "stage 1 is OK" << endl;
+      if (figure.type == "upside down") {
+        //cout << "stage 2 is OK" << endl;
+        if (x < 8) {
+          //cout << "stage 3 is OK" << endl;
+          for (int i = x; i < y + 3; i++) {
+            if (this->array[y][i] == ' ') {
+              write = true;
+            }
+            else {
+              write = false;
+              break;
+            }
+          }
+          //cout << "stage 4 is OK" << endl;
+          if (write == true) {
+            //cout << "stage 5 is OK" << endl;
+
+            for (int i = y; i < y + 3; i++) {
+              for (int j = y; j < y + 2; j++) {
+                this->array[y][j] = figure.symbol;
+              }
+              this->array[i][y] = figure.symbol;
+            }
+            //cout << "stage 6 is OK" << endl;
+          }
+        }
+      }
+    }
+    if (this->array[x][y] == ' ') {
+      // << "stage 1 is OK" << endl;
+      if (figure.type == "lightning") {
+        //cout << "stage 2 is OK" << endl;
+        if (x < 8) {
+          //cout << "stage 3 is OK" << endl;
+          for (int i = x; i < y + 3; i++) {
+            if (this->array[y][i] == ' ') {
+              write = true;
+            }
+            else {
+              write = false;
+              break;
+            }
+          }
+          //cout << "stage 4 is OK" << endl;
+          if (write == true) {
+            //cout << "stage 5 is OK" << endl;
+          x = y++;
+            for (int i = y; i < y + 3; i++) {
+              for (int j = y; j < y + 2; j++) {
+                this->array[i][y] = figure.symbol;
+                
+                this->array[++j][x] = figure.symbol;
+              }
+            }
+            //cout << "stage 6 is OK" << endl;
+          }
+        }
+      }
+    }
+  }
+  void showField() {
+    for (int i = 0; i < 30; i++) {
+      cout << '-';
+    }
+    cout << endl;
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < 10; j++) {
+        cout << '|' << array[i][j] << '|';
+      }
+      cout << endl;
+    }
+    for (int i = 0; i < 30; i++) {
+      cout << '-';
+    }
+  }
+  void addChar(char symbol = '-', int x = 0, int y = 0, int iterator = 4, int start = 3) {
+    for (int i = start; i < iterator + start; i++) {
+      this->array[y][i] = symbol;
+    }
+  }
 };
 
-class Penguin : public Bird {
-	bool canSwim;
-	bool canFly;
-	bool canCatchTheFishUnderWater;
-	void Swim() {
-		cout << "* Penguin is swimming *";
-	}
-};
-
-class Crow : public Bird {
-	bool isSpeak;
-	bool trained;
-	void voice_Car() {
-		cout << "Caaaaarr";
-	}
-};
-
-class Swan : public Bird {
-	bool canSwim;
-	bool canCatchTheFishUnderWater;
-	void Swim() {
-		cout << " Swam is swimming";
-	}
-};
-
-class Duck : public Bird {
-	bool canSwim;
-	bool canCatchTheFishUnderWater;
-	bool trained;
-	void Swim() {
-		cout << " Duck is swimming";
-	}
-};
-
-
+int main()
+{
+  srand(time(NULL));
+  Field game;
+  Figure first{ "line",'#' };
+  game.showField();
+  game.addFigure(first);
+  cout << endl;
+  game.showField();
+}
