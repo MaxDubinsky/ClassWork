@@ -1,263 +1,101 @@
 #include <iostream>
+#include <Windows.h>
 
 using namespace std;
 
-class Figure {
-protected:
-  char* line;
-  char** box;
+string question[9] = { "1.What fruit is symbol of Newton?",
+					   "2.What fruit has a red and yellow variety and is used in salads?",
+					   "3.What fruit is grown on a palm tree and used to produce oil?",
+					   "4.What fruit is usually used to make orange juice?",
+					   "5.Which fruit is very acidic and is used to make lemonade?",
+					   "6.What fruit is usually used to make guacamole?",
+					   "7.Which fruit is a symbol of the tropics and is often depicted on the covers of magazines?",
+					   "8.Which fruit has a hard crust and juicy pink meat with black seeds inside?",
+					   "9.What fruit that has a pungent taste is often used in sushi and Japanese cuisine" };
+string answer[9] = { "Apple", "Peach", "Coconut", "Orange", "Lemon", "Avocado", "Palm", "Pomegranate", "Ginger" };
+
+class Tables {
+private:
+	string question[9];
+	string answer[9];
 public:
-  string type;
-  char symbol;
+	//--------------------------------------------------------------------------
+	void createGraphicsTable(string answer[]) {
+		int spaceCout = 0;
+		int findingChar = 0;
+		for (int i = 0; i < answer[0].length(); i++) {
+			for (int j = 0; j < answer[1].length(); j++) {
+				if (answer[0][i] == answer[1][j]) {
+					spaceCout = i;
+					findingChar = j;
+					for (int k = j; k != 0; k--) {
+						for (int q = 0; q < spaceCout; q++) {
+							cout << "   ";
+						}
+						cout << "| |" << endl;
+					}
+					break;
+				}
+			}
+		}
+		for (int i = 0; i < answer[0].length(); i++) {
+			cout << '|' << " " << '|';
+		}
+		cout << endl;
+		for (int i = answer[2].length(); i > findingChar + 1; i--) {
+			for (int q = 0; q < spaceCout; q++) {
+				cout << "   ";
+			}
+			cout << "| |" << endl;
+		}
+		for (int i = answer[3].length(); i > findingChar + 1; i--) {
+			for (int q = 0; q < spaceCout; q++) {
+				cout << "   ";
+			}
+			cout << "| |" << endl;
+		}
+		//--------------------------------------------------------------------------
+	}
+	Tables(string question[], string answer[]) {
+		for (int i = 0; i < 9; i++) {
+			this->question[i] = question[i];
+			this->answer[i] = answer[i];
+		}
+		createGraphicsTable(answer);
+	}
+	void getQuestion() {
+		for (int i = 0; i < 9; i++) {
+			cout << this->question[i] << endl;
+		}
+	}
 
-  Figure(string type, char symbol) {
-    this->symbol = symbol;
-    if (type == "line") {
-      this->type = type;
-      this->line = new char[4];
-      for (int i = 0; i < 4; i++) {
-        this->line[i] = this->symbol;
-      }
-      delete[] box;
-    }
-    else if (type == "box") {
-      this->type = type;
-      this->box = new char* [2];
-      for (int i = 0; i < 2; i++) {
-        this->box[i] = new char[2];
-        for (int j = 0; j < 2; j++) {
-          this->box[i][j] = symbol;
-        }
-      }
-      delete[] line;
-    }
-    else if (type == "tank") {
-      this->type = type;
-      this->box = new char* [3];
-      for (int i = 0; i < 2; i++) {
-        this->box[i] = new char[2];
-        for (int j = 0; j < 2; j++) {
-          this->box[i][j] = symbol;
-        }
-      }
-      delete[] line;
-    }
-    else if (type == "upside down") {
-      this->type = type;
-      this->box = new char* [3];
-      for (int i = 0; i < 3; i++) {
-        this->box[i] = new char[2];
-        for (int j = 0; j < 2; j++) {
-          this->box[i][j] = symbol;
-        }
-      }
-      delete[] line;
-    }
-    else if (type == "lightning") {
-      this->type = type;
-      this->box = new char* [4];
-      for (int i = 0; i < 2; i++) {
-        this->box[i] = new char[2];
-        for (int j = 0; j < 2; j++) {
-          this->box[i][j] = symbol;
-        }
-      }
-      delete[] line;
-    }
-    else { this->type = "error"; }
-  }
-};
-class Field {
-public:
-  char** array = new char* [10];
-  Field() {
-    for (int i = 0; i < 10; i++) {
-      this->array[i] = new char[10];
-      for (int j = 0; j < 10; j++) {
-        this->array[i][j] = ' ';
-      }
-    }
-  }
-  void addFigure(Figure figure) {
-    int x = rand() % 10,
-      y = rand() % 10;
-    //cout << "\n" << "Random X = " << x << endl;
-    bool write = false;
+	void setQuestionNumber() {
+		int number;
+		string your_answer;
 
-    if (this->array[x][y] == ' ') {
-      // << "stage 1 is OK" << endl;
-      if (figure.type == "line") {
-        //cout << "stage 2 is OK" << endl;
-        if (x < 7) {
-          //cout << "stage 3 is OK" << endl;
-          for (int i = x; i < x + 4; i++) {
-            if (this->array[y][i] == ' ') {
-              write = true;
-            }
-            else {
-              write = false;
-              break;
-            }
-          }
-          //cout << "stage 4 is OK" << endl;
-          if (write == true) {
-            //cout << "stage 5 is OK" << endl;
-            for (int i = x; i < x + 4; i++) {
-              this->array[y][i] = figure.symbol;
-            }
-            //cout << "stage 6 is OK" << endl;
-          }
-        }
-      }
-    }
-    if (this->array[x][y] == ' ') {
-      // << "stage 1 is OK" << endl;
-      if (figure.type == "box") {
-        //cout << "stage 2 is OK" << endl;
-        if (x < 9) {
-          //cout << "stage 3 is OK" << endl;
-          for (int i = x; i < x + 2; i++) {
-            if (this->array[y][i] == ' ') {
-              write = true;
-            }
-            else {
-              write = false;
-              break;
-            }
-          }
-          //cout << "stage 4 is OK" << endl;
-          if (write == true) {
-            //cout << "stage 5 is OK" << endl;
-            for (int i = x; i < x + 2; i++) {
-              this->array[++y][i] = figure.symbol;
-              this->array[--y][i] = figure.symbol;
-            }
-            //cout << "stage 6 is OK" << endl;
-          }
-        }
-      }
-    }
-    if (this->array[x][y] == ' ') {
-      // << "stage 1 is OK" << endl;
-      if (figure.type == "tank") {
-        //cout << "stage 2 is OK" << endl;
-        if (x < 6) {
-          //cout << "stage 3 is OK" << endl;
-          for (int i = x; i < x + 3; i++) {
-            if (this->array[y][i] == ' ') {
-              write = true;
-            }
-            else {
-              write = false;
-              break;
-            }
-          }
-          //cout << "stage 4 is OK" << endl;
-          if (write == true) {
-            //cout << "stage 5 is OK" << endl;
-            x = y++;
-            for (int i = x; i < x + 3; i++) {
-              for (int j = x; j < x + 1; j++) {
-                this->array[y][i] = figure.symbol;
-                this->array[x][++j] = figure.symbol;
-              }
-            }
-            //cout << "stage 6 is OK" << endl;
-          }
-        }
-      }
-    }
-    if (this->array[x][y] == ' ') {
-      // << "stage 1 is OK" << endl;
-      if (figure.type == "upside down") {
-        //cout << "stage 2 is OK" << endl;
-        if (x < 8) {
-          //cout << "stage 3 is OK" << endl;
-          for (int i = x; i < y + 3; i++) {
-            if (this->array[y][i] == ' ') {
-              write = true;
-            }
-            else {
-              write = false;
-              break;
-            }
-          }
-          //cout << "stage 4 is OK" << endl;
-          if (write == true) {
-            //cout << "stage 5 is OK" << endl;
+		cout << "\nEnter number of question that would you like to answer: ";
+		cin >> number;
+		cout << "\nEnter answer: ";
+		cin >> your_answer;
 
-            for (int i = y; i < y + 3; i++) {
-              for (int j = y; j < y + 2; j++) {
-                this->array[y][j] = figure.symbol;
-              }
-              this->array[i][y] = figure.symbol;
-            }
-            //cout << "stage 6 is OK" << endl;
-          }
-        }
-      }
-    }
-    if (this->array[x][y] == ' ') {
-      // << "stage 1 is OK" << endl;
-      if (figure.type == "lightning") {
-        //cout << "stage 2 is OK" << endl;
-        if (x < 8) {
-          //cout << "stage 3 is OK" << endl;
-          for (int i = x; i < y + 3; i++) {
-            if (this->array[y][i] == ' ') {
-              write = true;
-            }
-            else {
-              write = false;
-              break;
-            }
-          }
-          //cout << "stage 4 is OK" << endl;
-          if (write == true) {
-            //cout << "stage 5 is OK" << endl;
-          x = y++;
-            for (int i = y; i < y + 3; i++) {
-              for (int j = y; j < y + 2; j++) {
-                this->array[i][y] = figure.symbol;
-                
-                this->array[++j][x] = figure.symbol;
-              }
-            }
-            //cout << "stage 6 is OK" << endl;
-          }
-        }
-      }
-    }
-  }
-  void showField() {
-    for (int i = 0; i < 30; i++) {
-      cout << '-';
-    }
-    cout << endl;
-    for (int i = 0; i < 10; i++) {
-      for (int j = 0; j < 10; j++) {
-        cout << '|' << array[i][j] << '|';
-      }
-      cout << endl;
-    }
-    for (int i = 0; i < 30; i++) {
-      cout << '-';
-    }
-  }
-  void addChar(char symbol = '-', int x = 0, int y = 0, int iterator = 4, int start = 3) {
-    for (int i = start; i < iterator + start; i++) {
-      this->array[y][i] = symbol;
-    }
-  }
+		for (int i = 0; i < answer->length(); i++) {
+			if (number < 10 && number > -1 && your_answer == answer[number-1]) {
+				cout << "Good.";
+				break;
+			}
+			else {
+				cout << "Uncorrect.";
+				setQuestionNumber();
+			}
+		}
+	}
 };
 
 int main()
 {
-  srand(time(NULL));
-  Field game;
-  Figure first{ "line",'#' };
-  game.showField();
-  game.addFigure(first);
-  cout << endl;
-  game.showField();
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+	Tables game{ question,answer };
+	game.getQuestion();
+	game.setQuestionNumber();
 }
