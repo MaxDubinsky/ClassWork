@@ -69,7 +69,7 @@ public:
 		}
 	}
 
-	void setQuestionNumber() {
+	void setQuestionNumber(int counter = 0) {
 		int number;
 		string your_answer;
 
@@ -80,12 +80,26 @@ public:
 
 		for (int i = 0; i < answer->length(); i++) {
 			if (number < 10 && number > -1 && your_answer == answer[number-1]) {
-				cout << "Good.";
-				break;
+				cout << "Good.\n";
+				this->question[i] = "";
+				counter++;
 			}
 			else {
 				cout << "Uncorrect.";
-				setQuestionNumber();
+				setQuestionNumber(counter = 0);
+			}
+			if (counter == 9)
+				cout << "Game over.";
+		}
+	}
+	bool start() {
+		bool isFinished = false;
+		for (int i = 0; i < 9; i++) {
+			if (this->question[i] != "" || this->question[i] == "") {
+				return isFinished;
+			}
+			else if (question[i = 10] == "") {
+				return true;
 			}
 		}
 	}
@@ -96,6 +110,7 @@ int main()
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 	Tables game{ question,answer };
+	int countlol;
 	game.getQuestion();
-	game.setQuestionNumber();
+	game.setQuestionNumber(countlol);
 }
