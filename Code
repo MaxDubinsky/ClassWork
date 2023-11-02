@@ -2,262 +2,112 @@
 
 using namespace std;
 
-class Figure {
-protected:
-  char* line;
-  char** box;
+class Information_Encoding {
 public:
-  string type;
-  char symbol;
+	string text;
 
-  Figure(string type, char symbol) {
-    this->symbol = symbol;
-    if (type == "line") {
-      this->type = type;
-      this->line = new char[4];
-      for (int i = 0; i < 4; i++) {
-        this->line[i] = this->symbol;
-      }
-      delete[] box;
-    }
-    else if (type == "box") {
-      this->type = type;
-      this->box = new char* [2];
-      for (int i = 0; i < 2; i++) {
-        this->box[i] = new char[2];
-        for (int j = 0; j < 2; j++) {
-          this->box[i][j] = symbol;
-        }
-      }
-      delete[] line;
-    }
-    else if (type == "tank") {
-      this->type = type;
-      this->box = new char* [3];
-      for (int i = 0; i < 2; i++) {
-        this->box[i] = new char[2];
-        for (int j = 0; j < 2; j++) {
-          this->box[i][j] = symbol;
-        }
-      }
-      delete[] line;
-    }
-    else if (type == "upside down") {
-      this->type = type;
-      this->box = new char* [3];
-      for (int i = 0; i < 3; i++) {
-        this->box[i] = new char[2];
-        for (int j = 0; j < 2; j++) {
-          this->box[i][j] = symbol;
-        }
-      }
-      delete[] line;
-    }
-    else if (type == "lightning") {
-      this->type = type;
-      this->box = new char* [4];
-      for (int i = 0; i < 2; i++) {
-        this->box[i] = new char[2];
-        for (int j = 0; j < 2; j++) {
-          this->box[i][j] = symbol;
-        }
-      }
-      delete[] line;
-    }
-    else { this->type = "error"; }
-  }
-};
-class Field {
-public:
-  char** array = new char* [10];
-  Field() {
-    for (int i = 0; i < 10; i++) {
-      this->array[i] = new char[10];
-      for (int j = 0; j < 10; j++) {
-        this->array[i][j] = ' ';
-      }
-    }
-  }
-  void addFigure(Figure figure) {
-    int x = rand() % 10,
-      y = rand() % 10;
-    //cout << "\n" << "Random X = " << x << endl;
-    bool write = false;
-
-    if (this->array[x][y] == ' ') {
-      // << "stage 1 is OK" << endl;
-      if (figure.type == "line") {
-        //cout << "stage 2 is OK" << endl;
-        if (x < 7) {
-          //cout << "stage 3 is OK" << endl;
-          for (int i = x; i < x + 4; i++) {
-            if (this->array[y][i] == ' ') {
-              write = true;
-            }
-            else {
-              write = false;
-              break;
-            }
-          }
-          //cout << "stage 4 is OK" << endl;
-          if (write == true) {
-            //cout << "stage 5 is OK" << endl;
-            for (int i = x; i < x + 4; i++) {
-              this->array[y][i] = figure.symbol;
-            }
-            //cout << "stage 6 is OK" << endl;
-          }
-        }
-      }
-    }
-    if (this->array[x][y] == ' ') {
-      // << "stage 1 is OK" << endl;
-      if (figure.type == "box") {
-        //cout << "stage 2 is OK" << endl;
-        if (x < 9) {
-          //cout << "stage 3 is OK" << endl;
-          for (int i = x; i < x + 2; i++) {
-            if (this->array[y][i] == ' ') {
-              write = true;
-            }
-            else {
-              write = false;
-              break;
-            }
-          }
-          //cout << "stage 4 is OK" << endl;
-          if (write == true) {
-            //cout << "stage 5 is OK" << endl;
-            for (int i = x; i < x + 2; i++) {
-              this->array[++y][i] = figure.symbol;
-              this->array[--y][i] = figure.symbol;
-            }
-            //cout << "stage 6 is OK" << endl;
-          }
-        }
-      }
-    }
-    if (this->array[x][y] == ' ') {
-      // << "stage 1 is OK" << endl;
-      if (figure.type == "tank") {
-        //cout << "stage 2 is OK" << endl;
-        if (x < 6) {
-          //cout << "stage 3 is OK" << endl;
-          for (int i = x; i < x + 3; i++) {
-            if (this->array[y][i] == ' ') {
-              write = true;
-            }
-            else {
-              write = false;
-              break;
-            }
-          }
-          //cout << "stage 4 is OK" << endl;
-          if (write == true) {
-            //cout << "stage 5 is OK" << endl;
-            x = y++;
-            for (int i = x; i < x + 3; i++) {
-              for (int j = x; j < x + 1; j++) {
-                this->array[y][i] = figure.symbol;
-                this->array[x][++j] = figure.symbol;
-              }
-            }
-            //cout << "stage 6 is OK" << endl;
-          }
-        }
-      }
-    }
-    if (this->array[x][y] == ' ') {
-      // << "stage 1 is OK" << endl;
-      if (figure.type == "upside down") {
-        //cout << "stage 2 is OK" << endl;
-        if (x < 8) {
-          //cout << "stage 3 is OK" << endl;
-          for (int i = x; i < y + 3; i++) {
-            if (this->array[y][i] == ' ') {
-              write = true;
-            }
-            else {
-              write = false;
-              break;
-            }
-          }
-          //cout << "stage 4 is OK" << endl;
-          if (write == true) {
-            //cout << "stage 5 is OK" << endl;
-
-            for (int i = y; i < y + 3; i++) {
-              for (int j = y; j < y + 2; j++) {
-                this->array[y][j] = figure.symbol;
-              }
-              this->array[i][y] = figure.symbol;
-            }
-            //cout << "stage 6 is OK" << endl;
-          }
-        }
-      }
-    }
-    if (this->array[x][y] == ' ') {
-      // << "stage 1 is OK" << endl;
-      if (figure.type == "lightning") {
-        //cout << "stage 2 is OK" << endl;
-        if (x < 8) {
-          //cout << "stage 3 is OK" << endl;
-          for (int i = x; i < y + 3; i++) {
-            if (this->array[y][i] == ' ') {
-              write = true;
-            }
-            else {
-              write = false;
-              break;
-            }
-          }
-          //cout << "stage 4 is OK" << endl;
-          if (write == true) {
-            //cout << "stage 5 is OK" << endl;
-          x = y++;
-            for (int i = y; i < y + 3; i++) {
-              for (int j = y; j < y + 2; j++) {
-                this->array[i][y] = figure.symbol;
-                
-                this->array[++j][x] = figure.symbol;
-              }
-            }
-            //cout << "stage 6 is OK" << endl;
-          }
-        }
-      }
-    }
-  }
-  void showField() {
-    for (int i = 0; i < 30; i++) {
-      cout << '-';
-    }
-    cout << endl;
-    for (int i = 0; i < 10; i++) {
-      for (int j = 0; j < 10; j++) {
-        cout << '|' << array[i][j] << '|';
-      }
-      cout << endl;
-    }
-    for (int i = 0; i < 30; i++) {
-      cout << '-';
-    }
-  }
-  void addChar(char symbol = '-', int x = 0, int y = 0, int iterator = 4, int start = 3) {
-    for (int i = start; i < iterator + start; i++) {
-      this->array[y][i] = symbol;
-    }
-  }
+	void EncodeText(string text) {
+        string text2;
+        for (size_t i = 0; i < text.length(); ++i) {
+            char sym = text[i];
+			if (sym == 'A') text2 += "0-";
+			else if (sym == 'B') text2 += "-000";
+			else if (sym == 'C') text2 += "-0-0";
+			else if (sym == 'D') text2 += "-00";
+			else if (sym == 'E') text2 += "0";
+			else if (sym == 'F') text2 += "00-0";
+			else if (sym == 'G') text2 += "--0";
+			else if (sym == 'H') text2 += "0000";
+			else if (sym == 'I') text2 += "00";
+			else if (sym == 'J') text2 += "0---";
+			else if (sym == 'K') text2 += "-0-";
+			else if (sym == 'L') text2 += "0-00";
+			else if (sym == 'M') text2 += "--";
+			else if (sym == 'N') text2 += "-0";
+			else if (sym == 'O') text2 += "---";
+			else if (sym == 'P') text2 += "0--0";
+			else if (sym == 'Q') text2 += "--0-";
+			else if (sym == 'R') text2 += "0-0";
+			else if (sym == 'S') text2 += "000";
+			else if (sym == 'T') text2 += "-";
+			else if (sym == 'U') text2 += "00-";
+			else if (sym == 'V') text2 += "000-";
+			else if (sym == 'W') text2 += "0--";
+			else if (sym == 'X') text2 += "-00-";
+			else if (sym == 'Y') text2 += "-0--";
+			else if (sym == 'Z') text2 += "--00";
+		}
+		cout << text2;
+		this->text = text2;
+	}
 };
 
-int main()
-{
-  srand(time(NULL));
-  Field game;
-  Figure first{ "line",'#' };
-  game.showField();
-  game.addFigure(first);
-  cout << endl;
-  game.showField();
+class Information_Decoding {
+public:
+	string text;
+
+	void DecodeText(string text) {
+		string text2;
+		for (size_t i = 0; i < text.length(); ++i) {
+			char sym = text[i];
+			if (sym == '0-') text2 += "A";
+			else if (sym == '-000') text2 += "B";
+			else if (sym == '-0-0') text2 += "C";
+			else if (sym == '-00') text2 += "D";
+			else if (sym == '0') text2 += "E";
+			else if (sym == '00-0') text2 += "F";
+			else if (sym == '--0') text2 += "G";
+			else if (sym == '0000') text2 += "H";
+			else if (sym == '00') text2 += "I";
+			else if (sym == '0---') text2 += "J";
+			else if (sym == '-0-') text2 += "K";
+			else if (sym == '0-00') text2 += "L";
+			else if (sym == '--') text2 += "M";
+			else if (sym == '-0') text2 += "N";
+			else if (sym == '---') text2 += "O";
+			else if (sym == '0--0') text2 += "P";
+			else if (sym == '--0-') text2 += "Q";
+			else if (sym == '0-0') text2 += "R";
+			else if (sym == '000') text2 += "S";
+			else if (sym == '-') text2 += "T";
+			else if (sym == '00-') text2 += "U";
+			else if (sym == '000-') text2 += "V";
+			else if (sym == '0--') text2 += "W";
+			else if (sym == '-00-') text2 += "X";
+			else if (sym == '-0--') text2 += "Y";
+			else if (sym == '--00') text2 += "Z";
+		}
+		cout << text2;
+		this->text = text2;
+	}
+};
+
+int main() {
+	Information_Encoding encodingSys;
+	Information_Decoding decodingSys;
+
+	int choose;
+	string text;
+
+	cout << "What do you want to do?\n";
+	cout << "--- 1 = Encode\n";
+	cout << "--- 2 = Decode\n";
+	cout << "Write there: ";
+	cin >> choose;
+
+	switch (choose)
+	{
+	case 1:
+		cout << "\nEnter the text: ";
+		cin >> text;
+		encodingSys.EncodeText(text);
+		cout << "\n\n";
+		break;
+	case 2:
+		cout << "\nEnter the text: ";
+		cin >> text;
+		decodingSys.DecodeText(text);
+		cout << "\n\n";
+		break;
+	}
 }
