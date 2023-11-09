@@ -2,112 +2,36 @@
 
 using namespace std;
 
-class Information_Encoding {
+class Object {
 public:
-	string text;
-
-	void EncodeText(string text) {
-        string text2;
-        for (size_t i = 0; i < text.length(); ++i) {
-            char sym = text[i];
-			if (sym == 'A') text2 += "0-";
-			else if (sym == 'B') text2 += "-000";
-			else if (sym == 'C') text2 += "-0-0";
-			else if (sym == 'D') text2 += "-00";
-			else if (sym == 'E') text2 += "0";
-			else if (sym == 'F') text2 += "00-0";
-			else if (sym == 'G') text2 += "--0";
-			else if (sym == 'H') text2 += "0000";
-			else if (sym == 'I') text2 += "00";
-			else if (sym == 'J') text2 += "0---";
-			else if (sym == 'K') text2 += "-0-";
-			else if (sym == 'L') text2 += "0-00";
-			else if (sym == 'M') text2 += "--";
-			else if (sym == 'N') text2 += "-0";
-			else if (sym == 'O') text2 += "---";
-			else if (sym == 'P') text2 += "0--0";
-			else if (sym == 'Q') text2 += "--0-";
-			else if (sym == 'R') text2 += "0-0";
-			else if (sym == 'S') text2 += "000";
-			else if (sym == 'T') text2 += "-";
-			else if (sym == 'U') text2 += "00-";
-			else if (sym == 'V') text2 += "000-";
-			else if (sym == 'W') text2 += "0--";
-			else if (sym == 'X') text2 += "-00-";
-			else if (sym == 'Y') text2 += "-0--";
-			else if (sym == 'Z') text2 += "--00";
+	string arr[6];
+	void sortByLenght() {
+		cout << "------- Lenght Sort -------\n\n";
+		for (int i = 0; i < 6; i++) {
+			string text = this->arr[i];
+			for (int j = 0; j < 6; j++) {
+				if (this->arr[i].length() > this->arr[j++].length()) {
+					cout << " - " << this->arr[i++] << ";" << endl;
+				} else if (this->arr[i] == "") {
+					cout << "   NULL" << endl;
+				}
+			}
 		}
-		cout << text2;
-		this->text = text2;
+		cout << "\n---------------------------\n\n";
 	}
-};
+	void sortByNumber() {
+		char nums[10] = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '10'};
+		for (int i = 0; i < 6; i++) {
+			if (arr[i].length() == nums[i]) {
+				for (int j = 0; j < 6; j++) {
 
-class Information_Decoding {
-public:
-	string text;
-
-	void DecodeText(string text) {
-		string text2;
-		for (size_t i = 0; i < text.length(); ++i) {
-			char sym = text[i];
-			if (sym == '0-') text2 += "A";
-			else if (sym == '-000') text2 += "B";
-			else if (sym == '-0-0') text2 += "C";
-			else if (sym == '-00') text2 += "D";
-			else if (sym == '0') text2 += "E";
-			else if (sym == '00-0') text2 += "F";
-			else if (sym == '--0') text2 += "G";
-			else if (sym == '0000') text2 += "H";
-			else if (sym == '00') text2 += "I";
-			else if (sym == '0---') text2 += "J";
-			else if (sym == '-0-') text2 += "K";
-			else if (sym == '0-00') text2 += "L";
-			else if (sym == '--') text2 += "M";
-			else if (sym == '-0') text2 += "N";
-			else if (sym == '---') text2 += "O";
-			else if (sym == '0--0') text2 += "P";
-			else if (sym == '--0-') text2 += "Q";
-			else if (sym == '0-0') text2 += "R";
-			else if (sym == '000') text2 += "S";
-			else if (sym == '-') text2 += "T";
-			else if (sym == '00-') text2 += "U";
-			else if (sym == '000-') text2 += "V";
-			else if (sym == '0--') text2 += "W";
-			else if (sym == '-00-') text2 += "X";
-			else if (sym == '-0--') text2 += "Y";
-			else if (sym == '--00') text2 += "Z";
+				}
+			}
 		}
-		cout << text2;
-		this->text = text2;
 	}
 };
 
 int main() {
-	Information_Encoding encodingSys;
-	Information_Decoding decodingSys;
-
-	int choose;
-	string text;
-
-	cout << "What do you want to do?\n";
-	cout << "--- 1 = Encode\n";
-	cout << "--- 2 = Decode\n";
-	cout << "Write there: ";
-	cin >> choose;
-
-	switch (choose)
-	{
-	case 1:
-		cout << "\nEnter the text: ";
-		cin >> text;
-		encodingSys.EncodeText(text);
-		cout << "\n\n";
-		break;
-	case 2:
-		cout << "\nEnter the text: ";
-		cin >> text;
-		decodingSys.DecodeText(text);
-		cout << "\n\n";
-		break;
-	}
+	Object lol { "Hello", "A", " ", "123abc", "a B", "" };
+	lol.sortByLenght();
 }
