@@ -2,112 +2,199 @@
 
 using namespace std;
 
-class Information_Encoding {
-public:
-	string text;
 
-	void EncodeText(string text) {
-        string text2;
-        for (size_t i = 0; i < text.length(); ++i) {
-            char sym = text[i];
-			if (sym == 'A') text2 += "0-";
-			else if (sym == 'B') text2 += "-000";
-			else if (sym == 'C') text2 += "-0-0";
-			else if (sym == 'D') text2 += "-00";
-			else if (sym == 'E') text2 += "0";
-			else if (sym == 'F') text2 += "00-0";
-			else if (sym == 'G') text2 += "--0";
-			else if (sym == 'H') text2 += "0000";
-			else if (sym == 'I') text2 += "00";
-			else if (sym == 'J') text2 += "0---";
-			else if (sym == 'K') text2 += "-0-";
-			else if (sym == 'L') text2 += "0-00";
-			else if (sym == 'M') text2 += "--";
-			else if (sym == 'N') text2 += "-0";
-			else if (sym == 'O') text2 += "---";
-			else if (sym == 'P') text2 += "0--0";
-			else if (sym == 'Q') text2 += "--0-";
-			else if (sym == 'R') text2 += "0-0";
-			else if (sym == 'S') text2 += "000";
-			else if (sym == 'T') text2 += "-";
-			else if (sym == 'U') text2 += "00-";
-			else if (sym == 'V') text2 += "000-";
-			else if (sym == 'W') text2 += "0--";
-			else if (sym == 'X') text2 += "-00-";
-			else if (sym == 'Y') text2 += "-0--";
-			else if (sym == 'Z') text2 += "--00";
-		}
-		cout << text2;
-		this->text = text2;
+class Book {
+private:
+	Year year;
+	Month month;
+	Day day;
+	Time time;
+	Entry entr;
+public:
+	Book(int year) {
+		this->year.setYear(year);
+	}
+	void createNote() {
+		int choice;
+		entr.setEntry();
+		time.setTime();
+		day.setDays();
+		month.setMonth();
+		cout << "You created a new Note " << '"' << entr.getTitle() << '"' << ".\n";
+		do
+		{
+			cout << "Show note? (1 - Yes, 2 - No)";
+			switch (choice)
+			{
+			case 1:
+				entr.get();
+				time.get();
+				day.get();
+				month.get();
+				year.get();
+			}
+		} while (choice != 1 || choice != 2);
 	}
 };
 
-class Information_Decoding {
+class Time {
+private:
+	int hours;
+	int minutes;
+	string outPutTime;
 public:
-	string text;
-
-	void DecodeText(string text) {
-		string text2;
-		for (size_t i = 0; i < text.length(); ++i) {
-			char sym = text[i];
-			if (sym == '0-') text2 += "A";
-			else if (sym == '-000') text2 += "B";
-			else if (sym == '-0-0') text2 += "C";
-			else if (sym == '-00') text2 += "D";
-			else if (sym == '0') text2 += "E";
-			else if (sym == '00-0') text2 += "F";
-			else if (sym == '--0') text2 += "G";
-			else if (sym == '0000') text2 += "H";
-			else if (sym == '00') text2 += "I";
-			else if (sym == '0---') text2 += "J";
-			else if (sym == '-0-') text2 += "K";
-			else if (sym == '0-00') text2 += "L";
-			else if (sym == '--') text2 += "M";
-			else if (sym == '-0') text2 += "N";
-			else if (sym == '---') text2 += "O";
-			else if (sym == '0--0') text2 += "P";
-			else if (sym == '--0-') text2 += "Q";
-			else if (sym == '0-0') text2 += "R";
-			else if (sym == '000') text2 += "S";
-			else if (sym == '-') text2 += "T";
-			else if (sym == '00-') text2 += "U";
-			else if (sym == '000-') text2 += "V";
-			else if (sym == '0--') text2 += "W";
-			else if (sym == '-00-') text2 += "X";
-			else if (sym == '-0--') text2 += "Y";
-			else if (sym == '--00') text2 += "Z";
+	Time(int hours, int minutes) {
+		if (hours >= 0 && hours <= 24) {
+			this->hours = hours;
 		}
-		cout << text2;
-		this->text = text2;
+		if (minutes >= 0 && minutes <= 60) {
+			this->minutes = minutes;
+		}
+		outPutTime = hours + ":" + minutes;
+	}
+	int setTime() {
+		cout << "MINUTES: ";
+		cin >> this->minutes;
+		cout << "HOURS: ";
+		cin >> this->hours;
+	}
+	int get() {
+		cout << "MINUTES: " << this->minutes << " | ";
+		cout << "HOURS: " << this->hours << " | ";
+	}
+};
+
+class Year {
+private:
+	int year;
+	string months[12] = { "January", "February", "March",
+						  "April", "May", "June", "July", "August", 
+						  "September", "October", "November",
+		                  "December" };
+public:
+	int setYear(int year) {
+		this->year = year;
+	}
+	int get() {
+		cout << "YEARS: " << this->year << " | ";
+		
+	}
+};
+
+class Month {
+private:
+	int months;
+	string name;
+	Day day[30];
+public:
+	int setMonth() {
+		do
+		{
+			cout << "MONTHS: ";
+			cin >> this->months;
+		} while (this->months >= 0 && this->months <= 30);
+		this->day[this->months * 30];
+	}
+	int get() {
+		cout << "M: " << this->months << endl;
+	}
+};
+
+class Day {
+private:
+	int days;
+	Hours hours[24];
+public:
+	int setDays() {
+		do
+		{
+			cout << "DAYS: ";
+			cin >> this->days;
+		} while (this->days >= 0 && this->days <= 30);
+		hours[this->days * 24];
+	}
+	int get() {
+		cout << "DAYS: " << this->days << " | ";
+	}
+};
+
+class Hours {
+private:
+	int hours;
+	Minutes minutes[60];
+public:
+	int setHours() {
+		do
+		{
+			cout << "HOURS: ";
+			cin >> this->hours;
+		} while (this->hours >= 0 && this->hours <= 60);
+		this->minutes[hours * 60];
+	}
+	int get() {
+		cout << "HOURS: " << this->hours << " | ";
+	}
+};
+
+class Minutes {
+private:
+	int mins;
+	Entry array[60];
+public:
+	int setMinutes() {
+		do
+		{
+		cout << "MINUTES: ";
+		cin >> this->mins;
+		} while (this->mins >= 0 && this->mins <=  60);
+		this->array[this->mins * 60];
+	}
+};
+
+class Entry {
+private:
+	string title;
+	string description;
+public:
+	int setEntry() {
+		cout << "TITLE: ";
+		cin >> title;
+		cout << "DESCRIPTION: ";
+		cin >> description;
+	}
+	string get() {
+		cout << "TITLE: " << this->title << " | ";
+		cout << "DESCRIPTION: " << this->description << " | ";
+	}
+	string getTitle() {
+		return this->title;
 	}
 };
 
 int main() {
-	Information_Encoding encodingSys;
-	Information_Decoding decodingSys;
+	Minutes mins;
+	Hours hrs;
+	Month mnths;
+	Year yrs;
+	Book book{ 2023 };
 
-	int choose;
-	string text;
+	int choise;
 
-	cout << "What do you want to do?\n";
-	cout << "--- 1 = Encode\n";
-	cout << "--- 2 = Decode\n";
-	cout << "Write there: ";
-	cin >> choose;
-
-	switch (choose)
+	do
 	{
-	case 1:
-		cout << "\nEnter the text: ";
-		cin >> text;
-		encodingSys.EncodeText(text);
-		cout << "\n\n";
-		break;
-	case 2:
-		cout << "\nEnter the text: ";
-		cin >> text;
-		decodingSys.DecodeText(text);
-		cout << "\n\n";
-		break;
-	}
+    	cout << "1 - Create a note.\n";
+		cout << "2 - Edit a note.\n";
+		cout << "3 - Delete a note.\n";
+		cout << "YOUR CHOISE: ";
+		cin >> choise;
+		switch (choise)
+		{
+		case 1:
+			book.createNote();
+		case 2:
+			cout << "Function don't work.";
+		case 3:
+			cout << "Function don't work.";
+		}
+	} while (choise != 1 && choise != 2 && choise != 3);
 }
