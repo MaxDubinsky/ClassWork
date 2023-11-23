@@ -2,199 +2,257 @@
 
 using namespace std;
 
-
-class Book {
+class Minute {
 private:
-	Year year;
-	Month month;
-	Day day;
-	Time time;
-	Entry entr;
-public:
-	Book(int year) {
-		this->year.setYear(year);
-	}
-	void createNote() {
-		int choice;
-		entr.setEntry();
-		time.setTime();
-		day.setDays();
-		month.setMonth();
-		cout << "You created a new Note " << '"' << entr.getTitle() << '"' << ".\n";
-		do
-		{
-			cout << "Show note? (1 - Yes, 2 - No)";
-			switch (choice)
-			{
-			case 1:
-				entr.get();
-				time.get();
-				day.get();
-				month.get();
-				year.get();
-			}
-		} while (choice != 1 || choice != 2);
-	}
-};
-
-class Time {
-private:
-	int hours;
 	int minutes;
-	string outPutTime;
 public:
-	Time(int hours, int minutes) {
-		if (hours >= 0 && hours <= 24) {
-			this->hours = hours;
-		}
-		if (minutes >= 0 && minutes <= 60) {
-			this->minutes = minutes;
-		}
-		outPutTime = hours + ":" + minutes;
-	}
-	int setTime() {
-		cout << "MINUTES: ";
+	virtual int set(string message) {
+		cout << message;
 		cin >> this->minutes;
-		cout << "HOURS: ";
-		cin >> this->hours;
+		return this->minutes;
 	}
-	int get() {
-		cout << "MINUTES: " << this->minutes << " | ";
-		cout << "HOURS: " << this->hours << " | ";
+	virtual int set_incorrect(int num) {
+		num = this->minutes;
+		return 0;
 	}
-};
-
-class Year {
-private:
-	int year;
-	string months[12] = { "January", "February", "March",
-						  "April", "May", "June", "July", "August", 
-						  "September", "October", "November",
-		                  "December" };
-public:
-	int setYear(int year) {
-		this->year = year;
-	}
-	int get() {
-		cout << "YEARS: " << this->year << " | ";
-		
-	}
-};
-
-class Month {
-private:
-	int months;
-	string name;
-	Day day[30];
-public:
-	int setMonth() {
-		do
-		{
-			cout << "MONTHS: ";
-			cin >> this->months;
-		} while (this->months >= 0 && this->months <= 30);
-		this->day[this->months * 30];
-	}
-	int get() {
-		cout << "M: " << this->months << endl;
-	}
-};
-
-class Day {
-private:
-	int days;
-	Hours hours[24];
-public:
-	int setDays() {
-		do
-		{
-			cout << "DAYS: ";
-			cin >> this->days;
-		} while (this->days >= 0 && this->days <= 30);
-		hours[this->days * 24];
-	}
-	int get() {
-		cout << "DAYS: " << this->days << " | ";
+	virtual int get() {
+		return this->minutes;
 	}
 };
 
 class Hours {
 private:
 	int hours;
-	Minutes minutes[60];
 public:
-	int setHours() {
-		do
-		{
-			cout << "HOURS: ";
-			cin >> this->hours;
-		} while (this->hours >= 0 && this->hours <= 60);
-		this->minutes[hours * 60];
+	virtual int set(string message) {
+		cout << message;
+		cin >> this->hours;
+		return this->hours;
 	}
-	int get() {
-		cout << "HOURS: " << this->hours << " | ";
+	virtual int set_incorrect(int num) {
+		num = this->hours;
+		return 0;
+	}
+	virtual int get() {
+		return this->hours;
 	}
 };
 
-class Minutes {
+class Day {
 private:
-	int mins;
-	Entry array[60];
+	int days;
 public:
-	int setMinutes() {
-		do
-		{
-		cout << "MINUTES: ";
-		cin >> this->mins;
-		} while (this->mins >= 0 && this->mins <=  60);
-		this->array[this->mins * 60];
+	virtual int set(string message) {
+		cout << message;
+		cin >> this->days;
+		return this->days;
+	}
+	virtual int set_incorrect(int num) {
+		num = this->days;
+		return 0;
+	}
+	virtual int get() {
+		return this->days;
 	}
 };
 
-class Entry {
+class Month {
 private:
-	string title;
+	int months;
+public:
+	virtual int set(string message) {
+		cout << message;
+		cin >> this->months;
+		return this->months;
+	}
+	virtual int set_incorrect(int num) {
+		num = this->months;
+		return 0;
+	}
+	virtual int get() {
+		return this->months;
+	}
+};
+
+class Year {
+private:
+	string months[12] = { "January", "February", "March", "April", "May",
+						  "June", "July", "August", "September", "October",
+						  "November", "December" };
+	int year;
+public:
+	virtual int set(string message) {
+		cout << message;
+		cin >> this->year;
+		return this->year;
+	}
+	virtual int set_incorrect(int num) {
+		num = this->year;
+		return 0;
+	}
+	virtual int get() {
+		return this->year;
+	}
+};
+
+class Book {
+private:
 	string description;
+	string title;
+
+	Minute M;
+	Hours H;
+	Day D;
+	Month MNTH;
+	Year Y;
+
 public:
-	int setEntry() {
+	void createNote() {
 		cout << "TITLE: ";
 		cin >> title;
 		cout << "DESCRIPTION: ";
 		cin >> description;
+
+		M.set("Enter minutes: ");
+		H.set("Enter hours: ");
+		D.set("Enter days: ");
+		MNTH.set("Enter months: ");
+		Y.set("Enter years: ");
+		
+		if (M.get() >= 59 || M.get() < 0)
+			M.set_incorrect(0);
+		else if (H.get() >= 59 || H.get() < 0)
+			H.set_incorrect(0);
+		else if (D.get() >= 30 || D.get() < 0)
+			D.set_incorrect(0);
+		else if (MNTH.get() >= 12 || MNTH.get() < 0)
+			MNTH.set_incorrect(0);
+
+		cout << "TITLE: " << title << endl;
+		cout << "DESCRIPTION: " << description << "\n\n";
+		cout << M.get() << " Minutes, ";
+		cout << H.get() << " Hours, ";
+		cout << H.get() << " minutes, ";
+		cout << D.get() << " days, ";
+		cout << MNTH.get() << " months, ";
+		cout << Y.get() << " years.\n\n";
+		cout << "The note is created successfully!\n\n";
 	}
-	string get() {
-		cout << "TITLE: " << this->title << " | ";
-		cout << "DESCRIPTION: " << this->description << " | ";
+
+	void editNote() {
+		int choice;
+		cout << "\n1 - Title\n";
+		cout << "2 - Description\n";
+		cout << "3 - Minutes\n";
+		cout << "4 - Hours\n";
+		cout << "5 - Days\n";
+		cout << "6 - Months\n";
+		cout << "7 - Years\n";
+		cout << "\nWhat would you like to change?";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			cout << "NEW TITLE: ";
+			cin >> title;
+			cout << "Title changed.\n\n";
+			break;
+
+		case 2:
+			cout << "DESCRIPTION: ";
+			cin >> description;
+			cout << "Description changed.\n\n";
+			break;
+		case 3:
+			M.set("Enter minutes: ");
+			cout << "Minutes changed.\n\n";
+			break;
+
+		case 4:
+			H.set("Enter hours: ");
+			cout << "Hours changed.\n\n";
+			break;
+
+		case 5:
+			D.set("Enter days: ");
+			cout << "Days changed.\n\n";
+			break;
+
+		case 6:
+			MNTH.set("Enter months: ");
+			cout << "Months changed.\n\n";
+			break;
+
+		case 7:
+			Y.set("Enter years: ");
+			cout << "Years changed.\n\n";
+			break;
+
+		default:
+			cout << "You entered wrong number. Try again.\n\n";
+			break;
+		}
+
 	}
-	string getTitle() {
-		return this->title;
+	void deleteNote() {
+		int choice;
+		cout << "You deleted the note. Create a new one? (1 - Yes, 2 - No)" << endl;
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			this->createNote();
+			break;
+		case 2:
+			cout << "\n";
+			break;
+		default:
+			cin >> choice;
+		}
+
+	}
+	
+	void showNote() {
+		cout << "\nTITLE: " << title;
+		cout << "\nDESCRIPTION: " << description;
+		cout << "\nMINUTES: " << M.get();
+		cout << "\nHOURS: " << H.get();
+		cout << "\nDAYS: " << D.get();
+		cout << "\nMONTHS: " << MNTH.get();
+		cout << "\nYEARS: " << Y.get() << "\n\n";
 	}
 };
 
 int main() {
-	Minutes mins;
+	Minute mins;
 	Hours hrs;
 	Month mnths;
 	Year yrs;
-	Book book{ 2023 };
+	Book book;
 
 	int choise;
 
 	do
 	{
-    	cout << "1 - Create a note.\n";
+		cout << "1 - Create a note.\n";
 		cout << "2 - Edit a note.\n";
 		cout << "3 - Delete a note.\n";
+		cout << "4 - Show.\n";
 		cout << "YOUR CHOISE: ";
 		cin >> choise;
 		switch (choise)
 		{
 		case 1:
 			book.createNote();
+			break;
 		case 2:
-			cout << "Function don't work.";
+			book.editNote();
+			break;
 		case 3:
-			cout << "Function don't work.";
+			book.deleteNote();
+			break;
+		case 4:
+			book.showNote();
 		}
-	} while (choise != 1 && choise != 2 && choise != 3);
+	} while (true);
 }
