@@ -1,258 +1,130 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
-class Minute {
-private:
-	int minutes;
-public:
-	virtual int set(string message) {
-		cout << message;
-		cin >> this->minutes;
-		return this->minutes;
-	}
-	virtual int set_incorrect(int num) {
-		num = this->minutes;
-		return 0;
-	}
-	virtual int get() {
-		return this->minutes;
-	}
-};
-
-class Hours {
-private:
-	int hours;
-public:
-	virtual int set(string message) {
-		cout << message;
-		cin >> this->hours;
-		return this->hours;
-	}
-	virtual int set_incorrect(int num) {
-		num = this->hours;
-		return 0;
-	}
-	virtual int get() {
-		return this->hours;
-	}
-};
-
-class Day {
+class Time {
 private:
 	int days;
-public:
-	virtual int set(string message) {
-		cout << message;
-		cin >> this->days;
-		return this->days;
-	}
-	virtual int set_incorrect(int num) {
-		num = this->days;
-		return 0;
-	}
-	virtual int get() {
-		return this->days;
-	}
-};
-
-class Month {
-private:
 	int months;
-public:
-	virtual int set(string message) {
-		cout << message;
-		cin >> this->months;
-		return this->months;
-	}
-	virtual int set_incorrect(int num) {
-		num = this->months;
-		return 0;
-	}
-	virtual int get() {
-		return this->months;
-	}
-};
-
-class Year {
-private:
-	string months[12] = { "January", "February", "March", "April", "May",
-						  "June", "July", "August", "September", "October",
-						  "November", "December" };
 	int year;
+	string date;
 public:
-	virtual int set(string message) {
-		cout << message;
-		cin >> this->year;
-		return this->year;
+	Time() {
+		this->date = this->days + '.' + this->months + '.' + this->year;
 	}
-	virtual int set_incorrect(int num) {
-		num = this->year;
-		return 0;
-	}
-	virtual int get() {
-		return this->year;
+	// GETTERS
+	int getDays() { return this->days; }
+	int getMonths() { return this->months; }
+	int getYear() { return this->year; }
+	string getDate() { return this->date; }
+	
+	// SETTERS
+	int setDay(int days) { days = this->days; }
+	int setMonths(int months) { months = this->months; }
+	int setYear(int year) { year = this->year; }
+};
+
+class Expence {
+private:
+	int summa;
+	string description;
+	Time time;
+public:
+	// GETTERS
+	int getSumma() { return this->summa; }
+	string getDescription() { return this->description; }
+	Time getDate() { return this->getDate(); }
+
+	// SETTERS
+	void setSumma(int summa) { summa = this->summa; }
+	void setDescription(string description) { description = this->description; }
+
+	void setDate(Time newtime) {
+		this->time.setDay(newtime.getDays());
+		this->time.setMonths(newtime.getMonths());
+		this->time.setYear(newtime.getYear());
 	}
 };
 
-class Book {
+class ExpenseTracker {
 private:
-	string description;
-	string title;
-
-	Minute M;
-	Hours H;
-	Day D;
-	Month MNTH;
-	Year Y;
-
+	vector <Expence> expences;
 public:
-	void createNote() {
-		cout << "TITLE: ";
-		cin >> title;
-		cout << "DESCRIPTION: ";
-		cin >> description;
+	// ADD NEW EXPENCE
+	void addExpence() {
+		Expence expence;
+		int newSumma;
+		string newDescription;
+		Time newTime;
 
-		M.set("Enter minutes: ");
-		H.set("Enter hours: ");
-		D.set("Enter days: ");
-		MNTH.set("Enter months: ");
-		Y.set("Enter years: ");
-		
-		if (M.get() >= 59 || M.get() < 0)
-			M.set_incorrect(0);
-		else if (H.get() >= 59 || H.get() < 0)
-			H.set_incorrect(0);
-		else if (D.get() >= 30 || D.get() < 0)
-			D.set_incorrect(0);
-		else if (MNTH.get() >= 12 || MNTH.get() < 0)
-			MNTH.set_incorrect(0);
+		int newDays;
+		int newMonths;
+		int newYear;
 
-		cout << "TITLE: " << title << endl;
-		cout << "DESCRIPTION: " << description << "\n\n";
-		cout << M.get() << " Minutes, ";
-		cout << H.get() << " Hours, ";
-		cout << H.get() << " minutes, ";
-		cout << D.get() << " days, ";
-		cout << MNTH.get() << " months, ";
-		cout << Y.get() << " years.\n\n";
-		cout << "The note is created successfully!\n\n";
+		cout << "ENTER NEW SUM: ";
+		cin >> newSumma;
+		cout << "ENTER NEW DESCRIPTION: ";
+		cin >> newDescription;
+		cout << "NOW, YOU NEED TO CHOOSE YOUR CURRENT DATE.";
+		cout << "Please, enter your CURRENT days: ";
+		cin >> newDays;
+		cout << "Enter your CURRENT months: ";
+		cin >> newMonths;
+		cout << "Enter your CURRENT year: ";
+		cin >> newYear;
+
+		newTime.setDay(newDays);
+		newTime.setMonths(newMonths);
+		newTime.setYear(newYear);
+
+		expence.setSumma(newSumma);
+		expence.setDescription(newDescription);
+		expence.setDate(newTime);
 	}
 
-	void editNote() {
-		int choice;
-		cout << "\n1 - Title\n";
-		cout << "2 - Description\n";
-		cout << "3 - Minutes\n";
-		cout << "4 - Hours\n";
-		cout << "5 - Days\n";
-		cout << "6 - Months\n";
-		cout << "7 - Years\n";
-		cout << "\nWhat would you like to change?";
-		cin >> choice;
-		switch (choice)
-		{
-		case 1:
-			cout << "NEW TITLE: ";
-			cin >> title;
-			cout << "Title changed.\n\n";
-			break;
+	// DELETING THE LAST ELEMENT IN VECTOR 
+	void deleteTheLastExpence() {
+		this->expences.erase(expences.end());
+	}
 
-		case 2:
-			cout << "DESCRIPTION: ";
-			cin >> description;
-			cout << "Description changed.\n\n";
-			break;
-		case 3:
-			M.set("Enter minutes: ");
-			cout << "Minutes changed.\n\n";
-			break;
-
-		case 4:
-			H.set("Enter hours: ");
-			cout << "Hours changed.\n\n";
-			break;
-
-		case 5:
-			D.set("Enter days: ");
-			cout << "Days changed.\n\n";
-			break;
-
-		case 6:
-			MNTH.set("Enter months: ");
-			cout << "Months changed.\n\n";
-			break;
-
-		case 7:
-			Y.set("Enter years: ");
-			cout << "Years changed.\n\n";
-			break;
-
-		default:
-			cout << "You entered wrong number. Try again.\n\n";
-			break;
+	// THE WHOLE SUMM
+	void coutTheWholeSumma() {
+		int summa;
+		for (int i = 0; i < expences.size(); i++) {
+			summa = expences[i].getSumma() + expences[i++].getSumma();
 		}
-
-	}
-	void deleteNote() {
-		int choice;
-		cout << "You deleted the note. Create a new one? (1 - Yes, 2 - No)" << endl;
-		cin >> choice;
-		switch (choice)
-		{
-		case 1:
-			this->createNote();
-			break;
-		case 2:
-			cout << "\n";
-			break;
-		default:
-			cin >> choice;
-		}
-
-	}
-	
-	void showNote() {
-		cout << "\nTITLE: " << title;
-		cout << "\nDESCRIPTION: " << description;
-		cout << "\nMINUTES: " << M.get();
-		cout << "\nHOURS: " << H.get();
-		cout << "\nDAYS: " << D.get();
-		cout << "\nMONTHS: " << MNTH.get();
-		cout << "\nYEARS: " << Y.get() << "\n\n";
+		cout << summa;
 	}
 };
 
 int main() {
-	Minute mins;
-	Hours hrs;
-	Month mnths;
-	Year yrs;
-	Book book;
+	int choice;
+	ExpenseTracker expence_tracker;
 
-	int choise;
-
+	cout << "1 - Add expence\n";
+	cout << "2 - Delete last expence\n";
+	cout << "3 - Add expence\n";
+	
 	do
 	{
-		cout << "1 - Create a note.\n";
-		cout << "2 - Edit a note.\n";
-		cout << "3 - Delete a note.\n";
-		cout << "4 - Show.\n";
-		cout << "YOUR CHOISE: ";
-		cin >> choise;
-		switch (choise)
+		cout << "Enter choice: ";
+		cin >> choice;
+		switch (choice)
 		{
 		case 1:
-			book.createNote();
-			break;
+			expence_tracker.addExpence();
+			continue;
 		case 2:
-			book.editNote();
-			break;
+			expence_tracker.deleteTheLastExpence();
+			continue;
 		case 3:
-			book.deleteNote();
-			break;
-		case 4:
-			book.showNote();
+			expence_tracker.coutTheWholeSumma();
+			continue;
+
+		default:
+			continue;
 		}
 	} while (true);
 }
